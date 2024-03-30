@@ -50,7 +50,10 @@ class SuratmasukController extends Controller
         ]);
 
         // Redirect ke halaman surat masuk dengan pesan sukses
-        return redirect()->route('suratmasuk.index')->with('success', 'Surat masuk berhasil disimpan.');
+        return redirect()->route('suratmasuk.index')->with('success', [
+        'message' => 'Surat masuk berhasil disimpan.',
+        'file_name' => $nama_file
+    ]);
     }
     public function show($id){
         $disposisi = DB::table('disposisi')

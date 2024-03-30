@@ -55,7 +55,12 @@
                             <td>{{ $surat->perihal }}</td>
                             <td>{{ $surat->tanggal }}</td>
                             <td>
-                                <img src="{{ route('gambar.tampilkan', ['nama_file' => $surat->file]) }}" width="200">{{ $surat->file }}
+                                @if (Str::endsWith($surat->file, '.pdf'))
+                                    <a href="{{ asset('gambar/' . $surat->file) }}" target="_blank">Preview PDF</a>
+                                @else
+                                    <a href="{{ asset('gambar/' . $surat->file) }}" target="_blank">Preview Gambar
+                                    </a>
+                                @endif
                             </td>
                             <td>
                                  <a class="btn btn-sm btn-success" href="{{ route('disposisi.create', ['surat_id' => $surat->id]) }}" class="d-inline">Buat Disposisi</a>

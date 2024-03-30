@@ -7,15 +7,10 @@
             @csrf
             <div class="form-group">
                 <label for="surat_masuk_id">Surat Masuk:</label>
-                <select class="form-control" id="surat_masuk_id" name="surat_masuk_id" required>
-                    <option value="">Pilih Surat Masuk</option>
-                    @foreach ($suratMasuk as $surat)
-                        <option value="{{ $surat->id }}">{{ $surat->nomor_surat }}</option>
-                    @endforeach
-                </select>
-                @error('surat_masuk_id')
-                    <div class="text-danger">{{ $message }}</div>
-                @enderror
+                <input type="text" class="form-control" id="surat_masuk_id" name="surat_masuk_id" value="{{ $suratmasuk->nomor_surat }}" readonly>
+                <!-- Menampilkan nomor surat dari surat masuk yang telah ditentukan sebagai input yang tidak dapat diubah -->
+                <input type="hidden" name="surat_masuk_id" value="{{ $suratmasuk->id }}">
+                <!-- Menyimpan ID surat masuk sebagai input tersembunyi -->
             </div>
             <div class="form-group">
                 <label for="nomor_agenda">Nomor Agenda:</label>

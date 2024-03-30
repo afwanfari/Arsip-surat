@@ -25,10 +25,14 @@ class DisposisiController extends Controller
     public function create($surat_id)
     {
         // Ambil informasi surat masuk berdasarkan ID yang diterima
+        $suratmasuk = DB::table('surat_masuk')->where('id', $surat_id)->first();
+        // Jika surat masuk tidak ditemukan, kembalikan respons dengan pesan error
+        if (!$suratmasuk) {
+        return redirect()->back()->with('error', 'Surat masuk tidak ditemukan.');
+    }
         $orang = DB::table('orang_dituju')->get();
-        $suratMasuk = DB::table('surat_masuk')->get();
         $jenisDisposisi = DB::table('jenis_disposisi')->get();
-        return view('disposisi.create', compact('suratMasuk', 'jenisDisposisi','orang'));
+        return view('disposisi.create', compact('suratmasuk', 'jenisDisposisi','orang'));
     }
     
     public function store(Request $request) // Menggunakan $request sebagai parameter
