@@ -4,19 +4,16 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\SuratmasukController;
 use App\Http\Controllers\SuratKeluarController;
 use App\Http\Controllers\DisposisiController;
+use App\Http\Controllers\Auth\LoginController;
 use Illuminate\Support\Facades\Storage;
 
-Route::get('/', function () {
-    return view('layouts/dashboard');
-});
-Route::get('/login', function () {
-    return view('login');
-});
+
+Route::get('/', [LoginController::class, 'showLoginForm'])->name('login');
+Route::post('/login', [LoginController::class, 'login']);
+Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
+
 Route::get('/dashboard', function () {
     return view('layouts/dashboard'); 
-});
-Route::get('/agenda', function () {
-    return view('layouts/agenda'); 
 });
 
 Route::prefix('suratmasuk')->group(function () {
