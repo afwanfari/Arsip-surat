@@ -1,19 +1,22 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SuratmasukController;
 use App\Http\Controllers\SuratKeluarController;
 use App\Http\Controllers\DisposisiController;
-use App\Http\Controllers\Auth\LoginController;
-use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Route;
 
-
-Route::get('/', [LoginController::class, 'showLoginForm'])->name('login');
-Route::post('/login', [LoginController::class, 'login']);
-Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
-
+Route::get('/', function () {
+    return view('welcome');
+});
 Route::get('/dashboard', function () {
-    return view('layouts/dashboard'); 
+    return view('layouts/dashboard');
+})->middleware(['auth', 'verified'])->name('dashboard');
+
+Route::middleware('auth')->group(function () {
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
 Route::prefix('suratmasuk')->group(function () {
@@ -47,3 +50,5 @@ Route::prefix('disposisi')->group(function () {
     Route::put('/update/{id}', [DisposisiController::class, 'update'])->name('disposisi.update');
     Route::delete('/delete/{id}', [DisposisiController::class, 'destroy'])->name('disposisi.destroy');
 });
+
+require __DIR__.'/auth.php';
