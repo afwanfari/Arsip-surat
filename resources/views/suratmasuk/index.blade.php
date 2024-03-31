@@ -74,8 +74,9 @@
                                 </form>
                             </td>
                             <td>
-                                <a class="btn btn-sm btn-success" href="{{ route('suratmasuk.show', $surat->id) }}" class="d-inline">Cetak</a>
+                                <a class="btn btn-sm btn-success" href="{{ route('suratmasuk.show', $disposisi->id) }}" class="d-inline">Cetak</a>
                             </td>
+
                         </tr>
                         @endforeach
                         @endif

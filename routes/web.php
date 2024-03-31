@@ -29,10 +29,8 @@ Route::prefix('suratmasuk')->group(function () {
     Route::put('/{id}', [SuratmasukController::class, 'update'])->name('suratmasuk.update');
     Route::delete('/{id}',[SuratmasukController::class, 'destroy'])->name('suratmasuk.destroy');
     Route::get('/galery/{id}',[SuratmasukController::class, 'galery'])->name('suratmasuk.galery');
-    Route::get('gambar/{nama_file}', [SuratmasukController::class, 'tampilkanGambar'])->name('gambar.tampilkan');
-Route::get('pdf/{nama_file}', [SuratmasukController::class, 'tampilkanPDF'])->name('pdf.tampilkan');
+    Route::get('/search', [SuratMasukController::class, 'search'])->name('suratmasuk.search');
 });
-Route::get('/search', [SuratMasukController::class, 'search'])->name('suratmasuk.search');
 Route::group(['prefix' => 'suratkeluar'], function () {
     Route::get('/', [SuratKeluarController::class, 'index'])->name('suratkeluar.index');
     Route::get('/create', [SuratKeluarController::class, 'create'])->name('suratkeluar.create');
@@ -50,12 +48,3 @@ Route::prefix('disposisi')->group(function () {
     Route::put('/update/{id}', [DisposisiController::class, 'update'])->name('disposisi.update');
     Route::delete('/delete/{id}', [DisposisiController::class, 'destroy'])->name('disposisi.destroy');
 });
-Route::get('file/{fileName}', function ($fileName) {
-    $filePath = storage_path('app/' . $fileName);
-
-    if (file_exists($filePath)) {
-        return response()->file($filePath);
-    } else {
-        abort(404); // File not found
-    }
-})->name('file.show');

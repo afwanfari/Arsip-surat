@@ -55,15 +55,18 @@ class SuratmasukController extends Controller
         'file_name' => $nama_file
     ]);
     }
-    public function show($id){
-        $disposisi = DB::table('disposisi')
-                ->join('surat_masuk', 'disposisi.id_surat_masuk', '=', 'surat_masuk.id')
-                ->join('jenis_disposisi', 'disposisi.jenis_disposisi_id', '=', 'jenis_disposisi.id')
-                ->leftJoin('orang_dituju', 'disposisi.orang_dituju_id', '=', 'orang_dituju.id')
-                ->select('disposisi.*','surat_masuk.pengirim', 'surat_masuk.nomor_surat', 'surat_masuk.tanggal', 'jenis_disposisi.nama AS nama_jenis_disposisi', 'orang_dituju.jabatan AS jabatan_orang_dituju')
-                ->first();
+    public function show($id)
+        {
+               $disposisi = DB::table('disposisi')
+            ->join('surat_masuk', 'disposisi.id_surat_masuk', '=', 'surat_masuk.id')
+            ->join('jenis_disposisi', 'disposisi.jenis_disposisi_id', '=', 'jenis_disposisi.id')
+            ->leftJoin('orang_dituju', 'disposisi.orang_dituju_id', '=', 'orang_dituju.id')
+            ->select('disposisi.*', 'surat_masuk.pengirim', 'surat_masuk.nomor_surat', 'surat_masuk.tanggal', 'jenis_disposisi.nama AS nama_jenis_disposisi', 'orang_dituju.jabatan AS jabatan_orang_dituju')
+            ->where('disposisi.id', $id)
+            ->first();
         // Load view Blade untuk disposisi dengan data yang diperlukan
-                return view('suratmasuk.show', compact('disposisi'));
+        return view('suratmasuk.show', compact('disposisi'));
+
     }
     public function edit($id){
         $suratmasuk = DB::table('surat_masuk')->where('id', $id)->first();

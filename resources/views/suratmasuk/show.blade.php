@@ -70,8 +70,5 @@
     </div>
 </body>
 <script>
-    window.onload = function() {
-        window.print();
-    }
 </script>
 </html>
