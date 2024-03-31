@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
-use Mpdf\Mpdf;
+use App\Models\Disposisi;
+use Dompdf\Dompdf;
+
 
 
 class SuratmasukController extends Controller
@@ -55,17 +57,36 @@ class SuratmasukController extends Controller
         'file_name' => $nama_file
     ]);
     }
-    public function show($id)
+    public function show($surat_id)
         {
-               $disposisi = DB::table('disposisi')
-            ->join('surat_masuk', 'disposisi.id_surat_masuk', '=', 'surat_masuk.id')
+            $disposisi = Disposisi::join('surat_masuk', 'disposisi.id_surat_masuk', '=', 'surat_masuk.id')
             ->join('jenis_disposisi', 'disposisi.jenis_disposisi_id', '=', 'jenis_disposisi.id')
             ->leftJoin('orang_dituju', 'disposisi.orang_dituju_id', '=', 'orang_dituju.id')
             ->select('disposisi.*', 'surat_masuk.pengirim', 'surat_masuk.nomor_surat', 'surat_masuk.tanggal', 'jenis_disposisi.nama AS nama_jenis_disposisi', 'orang_dituju.jabatan AS jabatan_orang_dituju')
-            ->where('disposisi.id', $id)
+            ->where('disposisi.id_surat_masuk', $surat_id)
             ->first();
-        // Load view Blade untuk disposisi dengan data yang diperlukan
-        return view('suratmasuk.show', compact('disposisi'));
+         // Inisialisasi objek dompdf
+            $dompdf = new Dompdf();
+
+            // Render HTML ke PDF menggunakan view yang baru saja dibuat
+            $html = view('suratmasuk.show', compact('disposisi'))->render();
+            $dompdf->loadHtml($html);
+
+            // Atur ukuran dan orientasi dokumen
+            $dompdf->setPaper('A4', 'portrait');
+
+            // Render PDF (output)
+            $dompdf->render();
+
+            // Generate nama file PDF yang unik
+            $nama_file = 'surat_masuk_' . time() . '.pdf';
+
+            // Simpan file PDF dengan nama sementara
+            $output = $dompdf->output();
+            file_put_contents($nama_file, $output);
+
+            // Kembalikan file PDF sebagai respons HTTP
+            return response()->download($nama_file)->deleteFileAfterSend(true);
 
     }
     public function edit($id){
@@ -109,35 +130,6 @@ class SuratmasukController extends Controller
         // Redirect ke halaman surat masuk dengan pesan sukses
         return redirect()->route('suratmasuk.index')->with('success', 'Surat masuk berhasil dihapus.');
     }
-    public function galery($id) {
-        $suratmasuk = DB::table('surat_masuk')->where('id', $id)->first();
-        return view('suratmasuk.galery', compact('suratmasuk'));
-    }
-     public function tampilkanGambar($nama_file)
-    {
-        $path = storage_path('public/gambar/' . $nama_file);
-
-        if (File::exists($path)) {
-            $fileContent = File::get($path);
-            return response()->make($fileContent, 200, ['Content-Type' => 'image/png']);
-        } else {
-            // Jika tidak ditemukan di direktori 'resource/files', coba ambil dari database
-            $suratmasuk = suratmasuk::where('file', $nama_file)->firstOrFail();
-             return response()->json(['message' => 'File tidak ditemukan'], 404);
-        }
-    }
-    public function tampilkanPDF($nama_file)
-    {
-        $path = storage_path('public/gambar/' . $nama_file);
-
-        if (File::exists($path)) {
-            return response()->file($path);
-        } else {
-            // Jika tidak ditemukan di direktori 'resource/files', coba ambil dari database
-            $suratmasuk = suratmasuk::where('file', $nama_file)->firstOrFail();
-             return response()->json(['message' => 'File tidak ditemukan'], 404);
-        }
-    }
     public function search(Request $request)
         {
             // Validasi request
@@ -160,6 +152,5 @@ class SuratmasukController extends Controller
             // Redirect kembali ke halaman indeks
             return redirect()->route('suratmasuk.index');
         }
-
 
 }
