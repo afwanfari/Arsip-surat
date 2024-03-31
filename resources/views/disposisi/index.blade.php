@@ -13,26 +13,22 @@
                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
             <thead>
                 <tr>
-                    <th>No.</th>
                     <th>Surat Masuk</th>
                     <th>Tujuan Disposisi</th>
                     <th>Perihal</th>
                     <td>No Agenda</td>
                     <th>Tindakan</th>
-                    <th>Tanggal Disposisi</th>
                     <th>Aksi</th>
                 </tr>
             </thead>
             <tbody>
-                @foreach ($disposisi as $key => $dispo)
+                @foreach ($disposisi as $dispo)
                 <tr>
-                    <td>{{ $key + 1 }}</td>
                     <td>{{ $dispo->nomor_surat }}</td>
                     <td>{{ $dispo->jabatan_orang_dituju }}</td>
                     <td>{{ $dispo->perihal }}</td>
                     <td>{{ $dispo->nomor_agenda }}</td>
                     <td>{{ $dispo->nama_jenis_disposisi }}</td>
-                    <td>{{ $dispo->tanggal_disposisi }}</td>
                     <td>
                         <a href="{{ route('disposisi.edit', $dispo->id) }}" class="btn btn-sm btn-warning" class="d-inline">Edit</a>
                         <form action="{{ route('disposisi.destroy', $dispo->id) }}" method="POST" class="d-inline">

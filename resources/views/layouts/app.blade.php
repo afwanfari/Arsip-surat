@@ -44,42 +44,40 @@
         <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
             <!-- Sidebar - Brand -->
-            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="/">
+            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="/dashboard">
                 <div class="sidebar-brand-icon rotate-n-15">
                     <i class="fas fa-laugh-wink"></i>
                 </div>
-                <div class="sidebar-brand-text mx-3">Si Surat <sup></sup></div>
+                <div class="sidebar-brand-text mx-3">Si-Surat <sup></sup></div>
             </a>
 
             <!-- Divider -->
             <hr class="sidebar-divider my-0">
-
             <!-- Nav Item - Dashboard -->
             <li class="nav-item">
                 <a class="nav-link" href="/dashboard">
-                    <i class="fas fa-fw fa-tachometer-alt"></i>
+                    <i class="fa-regular fa-file"></i>
                     <span>Dashboard</span></a>
             </li>
             <!-- Divider -->
             <hr class="sidebar-divider my-0">
             <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
-                    aria-expanded="true" aria-controls="collapseTwo">
-                    <i class="fas fa-fw fa-cog"></i>
-                    <span>Transaksi Surat</span>
-                </a>
-                <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-                    <div class="bg-white py-2 collapse-inner rounded">
-                        <a class="collapse-item" href="/suratmasuk">Surat Masuk</a>
-                        <a class="collapse-item" href="/suratkeluar">Surat Keluar</a>
-                    </div>
-                </div>
+                <a class="nav-link" href="/suratmasuk">
+                    <i class="fa-regular fa-file"></i>
+                    <span>Surat Masuk</span></a>
+            </li>
+            <!-- Divider -->
+            <hr class="sidebar-divider my-0">
+            <li class="nav-item">
+                <a class="nav-link" href="/suratkeluar">
+                    <i class="fa-regular fa-file"></i>
+                    <span>Surat Keluar</span></a>
             </li>
             <!-- Divider -->
             <hr class="sidebar-divider my-0">
             <li class="nav-item">
                 <a class="nav-link" href="/disposisi">
-                    <i class="fas fa-fw fa-tachometer-alt"></i>
+                    <i class="fa-regular fa-file"></i>
                     <span>Disposisi</span></a>
             </li>
         </ul>
@@ -136,12 +134,12 @@
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <span class="mr-2 d-none d-lg-inline text-gray-600 small">{{ Auth::user()->name }}</span>
                                 <img class="img-profile rounded-circle"
-                                    src="img/undraw_profile.svg">
+                                    src="img/futures.svg">
                             </a>
                             <!-- Dropdown - User Information -->
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
                                 aria-labelledby="userDropdown">
-                                <a class="dropdown-item" href="route('profile.edit')">
+                                <a class="dropdown-item" href="#">
                                     <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                                     Profile
                                 </a>
@@ -176,7 +174,7 @@
                         <footer class="sticky-footer bg-white">
                             <div class="container my-auto">
                                 <div class="copyright text-center my-auto">
-                                    <span>Copyright &copy; Your Website 2020</span>
+                                    <span>Copyright &copy; AF 2024</span>
                                 </div>
                             </div>
                         </footer>

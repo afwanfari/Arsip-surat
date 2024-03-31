@@ -20,8 +20,8 @@
                                     <th>Penerima</th>
                                     <th>Perihal</th>
                                     <th>Tanggal</th>
-                                    <th>Cetak</th>
                                     <th>Action</th>
+                                    <th>Cetak</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -32,14 +32,14 @@
                                     <td>{{ $surat->perihal }}</td>
                                     <td>{{ $surat->tanggal }}</td>
                                     <td>
-                                        <a href="{{ route('suratkeluar.show', $surat->id) }}"  class="btn btn-sm btn-success">Cetak</a>
-                                    </td>
-                                    <td>
                                         <a href="{{ route('suratkeluar.edit', $surat->id) }}"  class="btn btn-sm btn-warning" class="d-inline">Edit</a>
                                         <form action="{{ route('suratkeluar.destroy', $surat->id) }}" method="POST" class="d-inline">
                                             @csrf
                                             @method('DELETE')
                                             <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Apakah Anda yakin ingin menghapus surat ini?')">Hapus</button>
+                                    <td>
+                                        <a href="{{ route('suratkeluar.show', $surat->id) }}"  class="btn btn-sm btn-info">Cetak</a>
+                                    </td>
                                         </form>
                                     </td>
                                 </tr>
