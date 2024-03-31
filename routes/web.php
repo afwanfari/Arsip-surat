@@ -6,6 +6,7 @@ use App\Http\Controllers\SuratKeluarController;
 use App\Http\Controllers\DisposisiController;
 use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Auth;
 
 Route::get('/', function () {
     return view('auth.login');
@@ -18,7 +19,7 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-Route::prefix('suratmasuk')->group(function () {
+Route::prefix('suratmasuk')->middleware('auth')->group(function () {
     Route::get('/', [SuratmasukController::class, 'index'])->name('suratmasuk.index');
     Route::get('/detail', [SuratmasukController::class, 'detail'])->name('suratmasuk.detail');
     Route::get('/create', [SuratmasukController::class, 'create'])->name('suratmasuk.create');
@@ -32,7 +33,7 @@ Route::prefix('suratmasuk')->group(function () {
     ;
     Route::get('/search', [SuratMasukController::class, 'search'])->name('suratmasuk.search');
 });
-Route::group(['prefix' => 'suratkeluar'], function () {
+Route::prefix('suratkeluar')->middleware('auth')->group(function () {
     Route::get('/', [SuratKeluarController::class, 'index'])->name('suratkeluar.index');
     Route::get('/create', [SuratKeluarController::class, 'create'])->name('suratkeluar.create');
     Route::post('/', [SuratKeluarController::class, 'store'])->name('suratkeluar.store');
@@ -41,7 +42,7 @@ Route::group(['prefix' => 'suratkeluar'], function () {
     Route::put('/{id}', [SuratKeluarController::class, 'update'])->name('suratkeluar.update');
     Route::delete('/{id}', [SuratKeluarController::class, 'destroy'])->name('suratkeluar.destroy');
 });
-Route::prefix('disposisi')->group(function () {
+Route::prefix('disposisi')->middleware('auth')->group(function () {
     Route::get('/', [DisposisiController::class, 'index'])->name('disposisi.index');
     Route::get('/create/{surat_id}', [DisposisiController::class, 'create'])->name('disposisi.create');
     Route::post('/store', [DisposisiController::class, 'store'])->name('disposisi.store');
@@ -49,5 +50,4 @@ Route::prefix('disposisi')->group(function () {
     Route::put('/update/{id}', [DisposisiController::class, 'update'])->name('disposisi.update');
     Route::delete('/delete/{id}', [DisposisiController::class, 'destroy'])->name('disposisi.destroy');
 });
-
 require __DIR__.'/auth.php';
