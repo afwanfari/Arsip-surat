@@ -42,43 +42,47 @@
 
         <!-- Sidebar -->
         <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
-
             <!-- Sidebar - Brand -->
-            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="/dashboard">
-                <div class="sidebar-brand-icon rotate-n-15">
-                    <i class="fas fa-laugh-wink"></i>
-                </div>
-                <div class="sidebar-brand-text mx-3">Si-Surat <sup></sup></div>
-            </a>
-
+            <li class="nav-item">
+                <a class="sidebar-brand d-flex align-items-center justify-content-center" href="/dashboard">
+                    <div class="sidebar-brand-icon">
+                        <img src="{{ asset('gambar/logo-tmg.png') }}" alt="logo" width="50" height="50">
+                    </div>
+                    <div class="sidebar-brand-text mx-3">Pemdes Candimulyo</div>
+                </a>
+            </li>
             <!-- Divider -->
             <hr class="sidebar-divider my-0">
             <!-- Nav Item - Dashboard -->
             <li class="nav-item">
-                <a class="nav-link" href="/dashboard">
+                <a class="nav-link" href="{{route('dashboard')}}">
                     <i class="fa-regular fa-file"></i>
-                    <span>Dashboard</span></a>
+                    <span>Dashboard</span>
+                </a>
             </li>
             <!-- Divider -->
             <hr class="sidebar-divider my-0">
             <li class="nav-item">
-                <a class="nav-link" href="/suratmasuk">
+                <a class="nav-link" href="{{route('suratmasuk.index')}}">
                     <i class="fa-regular fa-file"></i>
-                    <span>Surat Masuk</span></a>
+                    <span>Surat Masuk</span>
+                </a>
             </li>
             <!-- Divider -->
             <hr class="sidebar-divider my-0">
             <li class="nav-item">
-                <a class="nav-link" href="/suratkeluar">
+                <a class="nav-link" href="{{route('suratkeluar.index')}}">
                     <i class="fa-regular fa-file"></i>
-                    <span>Surat Keluar</span></a>
+                    <span>Surat Keluar</span>
+                </a>
             </li>
             <!-- Divider -->
             <hr class="sidebar-divider my-0">
             <li class="nav-item">
-                <a class="nav-link" href="/disposisi">
+                <a class="nav-link" href="{{route('disposisi.index')}}">
                     <i class="fa-regular fa-file"></i>
-                    <span>Disposisi</span></a>
+                    <span>Disposisi</span>
+                </a>
             </li>
         </ul>
         <!-- End of Sidebar -->

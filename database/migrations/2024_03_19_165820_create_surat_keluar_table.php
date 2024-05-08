@@ -17,7 +17,9 @@ class CreateSuratKeluarTable extends Migration
             $table->id();
             $table->string('nomor_surat', 50);
             $table->date('tanggal');
+            $table->string('pembuat', 100);
             $table->string('penerima', 100);
+            $table->string('lampiran')->nullable();
             $table->string('alamat_penerima', 255);
             $table->text('isi_surat')->nullable();
             $table->string('perihal', 255);

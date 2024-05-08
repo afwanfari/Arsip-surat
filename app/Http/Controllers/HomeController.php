@@ -15,9 +15,12 @@ class HomeController extends Controller
         // Menghitung jumlah surat keluar
         $jumlahSuratKeluar = DB::table('surat_keluar')->count();
 
+        $jumlahdisposisi = DB::table('disposisi')->count();
+
         return view('layouts.dashboard', [
             'jumlahSuratMasuk' => $jumlahSuratMasuk,
             'jumlahSuratKeluar' => $jumlahSuratKeluar,
+            'jumlahdisposisi' => $jumlahdisposisi,
         ]);
     }
 }

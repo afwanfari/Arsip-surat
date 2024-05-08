@@ -12,6 +12,7 @@
                 <table class="table table-bordered" id="hasil-pencarian" width="100%" cellspacing="0">
                     <thead>
                         <tr>
+                            <th>No</th>
                             <th>No. Surat</th>
                             <th>Asal Surat</th>
                             <th>Perihal</th>
@@ -23,8 +24,9 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach($suratmasuk as $surat)
+                        @foreach($suratmasuk as $key => $surat)
                         <tr>
+                            <td>{{ $key + 1 }}</td>
                             <td>{{ $surat->nomor_surat }}</td>
                             <td>{{ $surat->pengirim }}</td>
                             <td>{{ $surat->perihal }}</td>

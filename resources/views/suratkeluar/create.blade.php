@@ -1,34 +1,53 @@
-<div class="container">
-    <div class="card">
-        <h5 class="card-header">Tambah Surat Keluar</h5>
-        <div class="card-body">
-            <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-        <form action="{{ route('suratkeluar.store') }}" method="POST">
+<!-- resources/views/suratkeluar/create.blade.php -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Buat Surat Keluar</title>
+    <!-- Panggil library Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container">
+        <h2>Tambah Surat Keluar</h2>
+        <form action="{{ route('suratkeluar.store') }}" method="POST" enctype="multipart/form-data">
             @csrf
-            <table class="table">
-                <tbody>
-                    <tr>
-                        <td><label for="nomor_surat">Nomor Surat:</label></td>
-                        <td><input type="text" class="form-control form-control-sm" id="nomor_surat" name="nomor_surat" required></td>
-                        <td><label for="tanggal">Tanggal:</label></td>
-                        <td><input type="date" class="form-control form-control-sm" id="tanggal" name="tanggal" required></td>
-                    </tr>
-                    <tr>
-                        <td><label for="penerima">Penerima:</label></td>
-                        <td><input type="text" class="form-control form-control-sm" id="penerima" name="penerima" required></td>
-                        <td><label for="alamat_penerima">Alamat Penerima:</label></td>
-                        <td><input type="text" class="form-control form-control-sm" id="alamat_penerima" name="alamat_penerima" required></td>
-                    </tr>
-                    <tr>
-                        <td><label for="perihal">Perihal:</label></td>
-                        <td><input type="text" class="form-control form-control-sm" id="perihal" name="perihal" required></td>
-                        <td><label for="isi_surat">Isi Surat:</label></td>
-                        <td><textarea class="form-control form-control-sm" id="isi_surat" name="isi_surat" rows="5" required></textarea></td>
-                    </tr>
-                </tbody>
-            </table>
+            <div class="form-group">
+                <label for="nomor_surat">Nomor Surat</label>
+                <input type="text" class="form-control" id="nomor_surat" name="nomor_surat" >
+            </div>
+            <div class="form-group">
+                <label for="tanggal">Tanggal</label>
+                <input type="date" class="form-control" id="tanggal" name="tanggal" >
+            </div>
+            <div class="form-group">
+                <label for="penerima">Penerima Surat</label>
+                <input type="text" class="form-control" id="penerima" name="penerima" >
+            </div>
+            <div class="form-group">
+                <label for="pembuat">Pembuat Surat</label>
+                <input type="text" class="form-control" id="pembuat" name="pembuat" >
+            </div>
+            <div class="form-group">
+                <label for="alamat_penerima">Alamat Penerima</label>
+                <input type="text" class="form-control" id="alamat_penerima" name="alamat_penerima" >
+            </div>
+            <div class="form-group">
+                <label for="lampiran">File</label>
+                <input type="file" class="form-control-file" id="lampiran" name="lampiran">
+            </div>
+            <div class="form-group">
+                <label for="perihal">Perihal</label>
+                <input type="text" class="form-control" id="perihal" name="perihal" >
+            </div>
+            <div class="form-group">
+                <label for="isi_surat">Isi Surat</label>
+                <textarea class="form-control" id="isi_surat" name="isi_surat"></textarea>
+            </div>
             <button type="submit" class="btn btn-primary">Simpan</button>
-            </form>
-        </div>
+        </form>
     </div>
-</div>
+    <!-- Panggil library Bootstrap JS (Optional) -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
