@@ -6,6 +6,9 @@ use App\Http\Controllers\SuratKeluarController;
 use App\Http\Controllers\DisposisiController;
 use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\PDFController;
+    
+Route::get('generate-pdf/{surat_id}', [PDFController::class, 'generatePDF'])->name('pdf');
 
 Route::get('/', function () {
     return view('auth.login');
@@ -28,8 +31,6 @@ Route::prefix('suratmasuk')->group(function () {
     Route::put('/{id}', [SuratmasukController::class, 'update'])->name('suratmasuk.update');
     Route::delete('/{id}',[SuratmasukController::class, 'destroy'])->name('suratmasuk.destroy');
     Route::get('/galery/{id}',[SuratmasukController::class, 'galery'])->name('suratmasuk.galery');
-    Route::get('/suratmasuk/{id}/export-pdf', [SuratmasukController::class, 'show'])->name('suratmasuk.export-pdf');
-    ;
     Route::get('/search', [SuratMasukController::class, 'search'])->name('suratmasuk.search');
 });
 Route::group(['prefix' => 'suratkeluar'], function () {

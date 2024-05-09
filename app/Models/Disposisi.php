@@ -9,4 +9,6 @@ class Disposisi extends Model
 {
     use HasFactory;
     protected $table = 'disposisi';
+
+    
 }

@@ -51,7 +51,7 @@
                                 </form>
                             </td>
                             <td>
-                                <a class="btn btn-sm btn-info" href="{{ route('suratmasuk.show', $surat->id) }}" class="d-inline">Cetak</a>
+                                <a class="btn btn-sm btn-info" href="{{ route('pdf', $surat->id) }}" class="d-inline">Cetak</a>
                             </td>
                         </tr>
                         @endforeach

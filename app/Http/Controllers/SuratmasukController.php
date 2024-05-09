@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use Dompdf\Dompdf;
+use App\Models\Disposisi;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Str;
-use App\Models\Disposisi;
-use Dompdf\Dompdf;
 
 
 
@@ -68,6 +68,7 @@ class SuratmasukController extends Controller
          // Inisialisasi objek dompdf
             $dompdf = new Dompdf();
 
+            // return view('suratmasuk.show', compact('disposisi'));
             // Render HTML ke PDF menggunakan view yang baru saja dibuat
             $html = view('suratmasuk.show', compact('disposisi'))->render();
             $dompdf->loadHtml($html);
