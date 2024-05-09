@@ -6,6 +6,7 @@
         <div class="card-header py-3">
             <h3 class="m-0 font-weight-bold text-primary">Surat Masuk</h3>
             <a href="{{ route('suratmasuk.create') }}" class="btn btn-md btn-success">Input Surat</a>
+            <a href="{{ route('exportmasuk') }}" class="btn btn-md btn-success">Export Surat Masuk</a>
         </div>
         <div class="card-body">
             <div class="table-responsive">

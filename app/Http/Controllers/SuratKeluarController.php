@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\SuratKeluar;
+use Illuminate\Http\Request;
+
 
 class SuratKeluarController extends Controller
 {
@@ -99,4 +100,5 @@ class SuratKeluarController extends Controller
 
         return redirect()->route('suratkeluar.index')->with('success', 'Surat keluar berhasil dihapus.');
     }
+  
 }

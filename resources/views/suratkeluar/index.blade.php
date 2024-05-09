@@ -7,6 +7,7 @@
         <div class="card-header py-3">
            <h1>Daftar Surat Keluar</h1>
             <a href="{{ route('suratkeluar.create') }}"  class="btn btn-primary">Buat Surat Keluar Baru</a>
+            <a href="{{ route('exportkeluar') }}" class="btn btn-md btn-success">Export Surat Keluar</a>
                 </div>
                  @if ($suratKeluar->isEmpty())
                 <p>Tidak ada surat keluar.</p>
