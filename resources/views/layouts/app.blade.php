@@ -56,7 +56,7 @@
             <!-- Nav Item - Dashboard -->
             <li class="nav-item">
                 <a class="nav-link" href="{{route('dashboard')}}">
-                    <i class="fa-regular fa-file"></i>
+                    <i class="fas fa-fw fa-tachometer-alt"></i>
                     <span>Dashboard</span>
                 </a>
             </li>
@@ -64,7 +64,7 @@
             <hr class="sidebar-divider my-0">
             <li class="nav-item">
                 <a class="nav-link" href="{{route('suratmasuk.index')}}">
-                    <i class="fa-regular fa-file"></i>
+                    <i class="fas fa-fw fa-envelope"></i>
                     <span>Surat Masuk</span>
                 </a>
             </li>
@@ -72,7 +72,7 @@
             <hr class="sidebar-divider my-0">
             <li class="nav-item">
                 <a class="nav-link" href="{{route('suratkeluar.index')}}">
-                    <i class="fa-regular fa-file"></i>
+                    <i class="fas fa-fw fa-paper-plane"></i>
                     <span>Surat Keluar</span>
                 </a>
             </li>
@@ -80,7 +80,7 @@
             <hr class="sidebar-divider my-0">
             <li class="nav-item">
                 <a class="nav-link" href="{{route('disposisi.index')}}">
-                    <i class="fa-regular fa-file"></i>
+                    <i class="fas fa-fw fa-file-alt"></i>
                     <span>Disposisi</span>
                 </a>
             </li>

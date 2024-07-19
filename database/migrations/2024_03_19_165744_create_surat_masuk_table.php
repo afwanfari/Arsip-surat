@@ -18,7 +18,7 @@ class CreateSuratMasukTable extends Migration
             $table->string('nomor_surat', 50);
             $table->string('pengirim', 100);
             $table->string('perihal', 255);
-            $table->string('file');
+            $table->string('file')->nullable();
             $table->date('tanggal');
             $table->timestamps();
         });

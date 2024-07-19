@@ -2,15 +2,19 @@
 
 @section('content')
 <div class="container-fluid">
+    <!-- Page Heading -->
+    <h1 class="h3 mb-2 text-gray-800">Surat Masuk</h1>
+    <p class="mb-4">Berikut adalah daftar surat masuk yang telah dikirimkan.</p>
+
+    <!-- DataTales Example -->
     <div class="card shadow mb-4">
         <div class="card-header py-3">
-            <h3 class="m-0 font-weight-bold text-primary">Surat Masuk</h3>
             <a href="{{ route('suratmasuk.create') }}" class="btn btn-md btn-success">Input Surat</a>
             <a href="{{ route('exportmasuk') }}" class="btn btn-md btn-success">Export Surat Masuk</a>
         </div>
         <div class="card-body">
             <div class="table-responsive">
-                <table class="table table-bordered" id="hasil-pencarian" width="100%" cellspacing="0">
+                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                     <thead>
                         <tr>
                             <th>No</th>
@@ -36,15 +40,14 @@
                                 @if (Str::endsWith($surat->file, '.pdf'))
                                     <a href="{{ asset('gambar/' . $surat->file) }}" target="_blank" class="d-inline">Preview PDF</a>
                                 @else
-                                    <a href="{{ asset('gambar/' . $surat->file) }}" target="_blank" class="d-inline">Preview Gambar
-                                    </a>
+                                    <a href="{{ asset('gambar/' . $surat->file) }}" target="_blank" class="d-inline">Preview Gambar</a>
                                 @endif
                             </td>
                             <td>
-                                 <a class="btn btn-sm btn-primary" href="{{ route('disposisi.create', ['surat_id' => $surat->id]) }}" class="d-inline">Buat</a>
+                                <a class="btn btn-sm btn-primary" href="{{ route('disposisi.create', ['surat_id' => $surat->id]) }}" class="d-inline">Buat</a>
                             </td>
-                            <td>    
-                                <a href="{{ route('suratmasuk.edit', $surat->id) }}"  class="btn btn-sm btn-warning" class="d-inline">Edit</a>
+                            <td>
+                                <a href="{{ route('suratmasuk.edit', $surat->id) }}" class="btn btn-sm btn-warning" class="d-inline">Edit</a>
                                 <form action="{{ route('suratmasuk.destroy', $surat->id) }}" method="POST" class="d-inline">
                                     @csrf
                                     @method('DELETE')
@@ -64,3 +67,4 @@
 </div>
 <!-- /.container-fluid -->
 @endsection
+
