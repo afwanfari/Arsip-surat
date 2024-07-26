@@ -4,25 +4,28 @@ namespace App\Http\Controllers;
 
 use Dompdf\Dompdf;
 use App\Models\Disposisi;
+use App\Models\SuratMasuk;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
-
-
-
+use App\Http\Controllers\Controller;
 
 class SuratmasukController extends Controller
 {
-    public function index(){
-        $disposisi = DB::table('disposisi')->get();
-        $suratmasuk = DB::table('surat_masuk')->get(); // Mengambil semua data
-        $hasilPencarian = session()->get('hasilPencarian');
+    public function index()
+    {
+        $disposisi = Disposisi::all();
+        $suratmasuk = SuratMasuk::all(); // Mengambil semua data
+        $hasilPencarian = session('hasilPencarian');
         // Tampilkan halaman indeks dengan data surat masuk dan hasil pencarian
-        return view('suratmasuk.index', compact('suratmasuk','disposisi', 'hasilPencarian'));
+        return view('suratmasuk.index', compact('suratmasuk', 'disposisi', 'hasilPencarian'));
     }
-    public function create(){
-    return view('suratmasuk.create');
+
+    public function create()
+    {
+        return view('suratmasuk.create');
     }
-    public function store(Request $request){
+
+    public function store(Request $request)
+    {
         // Validasi data masukan
         $validatedData = $request->validate([
             'nomor_surat' => 'required|string|max:255',
@@ -31,72 +34,73 @@ class SuratmasukController extends Controller
             'pengirim' => 'required|string|max:255',
             'perihal' => 'required|string|max:255',
         ]);
+
         // Inisialisasi variabel untuk menyimpan nama file
         $nama_file = null;
+
         // Cek apakah ada file yang diunggah
-            if ($request->hasFile('file')) {
+        if ($request->hasFile('file')) {
             // Simpan nama file asli
             $nama_file = $request->file('file')->getClientOriginalName();
             // Simpan file di direktori 'gambar' di dalam direktori 'public'
             $request->file('file')->move(public_path('gambar'), $nama_file);
         }
+
         // Simpan data surat masuk ke dalam database
-        DB::table('surat_masuk')->insert([
+        SuratMasuk::create([
             'nomor_surat' => $validatedData['nomor_surat'],
             'tanggal' => $validatedData['tanggal'],
             'file' => $nama_file, // Simpan nama file atau null jika tidak ada file
             'pengirim' => $validatedData['pengirim'],
             'perihal' => $validatedData['perihal'],
-            'created_at' => now(),
-            'updated_at' => now(),
         ]);
 
         // Redirect ke halaman surat masuk dengan pesan sukses
         return redirect()->route('suratmasuk.index')->with('success', [
-        'message' => 'Surat masuk berhasil disimpan.',
-        'file_name' => $nama_file
-    ]);
+            'message' => 'Surat masuk berhasil disimpan.',
+            'file_name' => $nama_file
+        ]);
     }
+
     public function show($surat_id)
-        {
-            $disposisi = Disposisi::join('surat_masuk', 'disposisi.id_surat_masuk', '=', 'surat_masuk.id')
-            ->join('jenis_disposisi', 'disposisi.jenis_disposisi_id', '=', 'jenis_disposisi.id')
-            ->leftJoin('orang_dituju', 'disposisi.orang_dituju_id', '=', 'orang_dituju.id')
-            ->select('disposisi.*', 'surat_masuk.pengirim', 'surat_masuk.nomor_surat', 'surat_masuk.tanggal', 'jenis_disposisi.nama AS nama_jenis_disposisi', 'orang_dituju.jabatan AS jabatan_orang_dituju')
-            ->where('disposisi.id_surat_masuk', $surat_id)
-            ->first();
-         // Inisialisasi objek dompdf
-            $dompdf = new Dompdf();
+    {
+        $disposisi = Disposisi::with(['jenisDisposisi', 'orangDituju'])
+            ->where('id_surat_masuk', $surat_id)
+            ->firstOrFail();
 
-            // return view('suratmasuk.show', compact('disposisi'));
-            // Render HTML ke PDF menggunakan view yang baru saja dibuat
-            $html = view('suratmasuk.show', compact('disposisi'))->render();
-            $dompdf->loadHtml($html);
+        // Inisialisasi objek dompdf
+        $dompdf = new Dompdf();
 
-            // Atur ukuran dan orientasi dokumen
-            $dompdf->setPaper('A4', 'portrait');
+        // Render HTML ke PDF menggunakan view yang baru saja dibuat
+        $html = view('suratmasuk.show', compact('disposisi'))->render();
+        $dompdf->loadHtml($html);
 
-            // Render PDF (output)
-            $dompdf->render();
+        // Atur ukuran dan orientasi dokumen
+        $dompdf->setPaper('A4', 'portrait');
 
-            // Generate nama file PDF yang unik
-            $nama_file = 'surat_masuk_' . time() . '.pdf';
+        // Render PDF (output)
+        $dompdf->render();
 
-            // Simpan file PDF dengan nama sementara
-            $output = $dompdf->output();
-            file_put_contents($nama_file, $output);
+        // Generate nama file PDF yang unik
+        $nama_file = 'surat_masuk_' . time() . '.pdf';
 
-            // Kembalikan file PDF sebagai respons HTTP
-            return response()->download($nama_file)->deleteFileAfterSend(true);
+        // Simpan file PDF dengan nama sementara
+        $output = $dompdf->output();
+        file_put_contents($nama_file, $output);
 
+        // Kembalikan file PDF sebagai respons HTTP
+        return response()->download($nama_file)->deleteFileAfterSend(true);
     }
-    public function edit($id){
-        $suratmasuk = DB::table('surat_masuk')->where('id', $id)->first();
-                return view('suratmasuk.edit', compact('suratmasuk'));
+
+    public function edit($id)
+    {
+        $suratmasuk = SuratMasuk::findOrFail($id);
+        return view('suratmasuk.edit', compact('suratmasuk'));
     }
-    public function update(Request $request)
-        {
-            // Validasi data masukan
+
+    public function update(Request $request, $id)
+    {
+        // Validasi data masukan
         $validatedData = $request->validate([
             'nomor_surat' => 'required|string|max:255',
             'tanggal' => 'required|date',
@@ -104,55 +108,61 @@ class SuratmasukController extends Controller
             'pengirim' => 'required|string|max:255',
             'perihal' => 'required|string|max:255',
         ]);
-                // Ambil file yang diupload
-            if ($request->hasFile('file')) {
-                // Simpan file ke dalam storage dan dapatkan nama filenya
-                $nama_file = $request->file('file')->store('lampiran');
-            } else {
-                // Jika tidak ada file yang di-upload, set nama file menjadi null
-                $nama_file = null;
-            }
-        DB::table('surat_masuk')->insert([
+
+        // Ambil surat masuk berdasarkan ID
+        $suratmasuk = SuratMasuk::findOrFail($id);
+
+        // Cek apakah ada file yang diunggah
+        if ($request->hasFile('file')) {
+            // Simpan nama file asli
+            $nama_file = $request->file('file')->getClientOriginalName();
+            // Simpan file di direktori 'gambar' di dalam direktori 'public'
+            $request->file('file')->move(public_path('gambar'), $nama_file);
+            // Update nama file pada database
+            $suratmasuk->file = $nama_file;
+        }
+
+        // Update data surat masuk
+        $suratmasuk->update([
             'nomor_surat' => $validatedData['nomor_surat'],
             'tanggal' => $validatedData['tanggal'],
-            'file' => $nama_file, // Simpan nama file atau null jika tidak ada file
             'pengirim' => $validatedData['pengirim'],
             'perihal' => $validatedData['perihal'],
-            'created_at' => now(),
-            'updated_at' => now(),
         ]);
+
         // Redirect ke halaman surat masuk dengan pesan sukses
-            return redirect()->route('suratmasuk.index')->with('success', 'Surat masuk berhasil disimpan.');
+        return redirect()->route('suratmasuk.index')->with('success', 'Surat masuk berhasil diupdate.');
     }
-    public function destroy($id){
+
+    public function destroy($id)
+    {
         // Hapus data surat masuk dari database
-        DB::table('surat_masuk')->where('id', $id)->delete();
+        SuratMasuk::destroy($id);
 
         // Redirect ke halaman surat masuk dengan pesan sukses
         return redirect()->route('suratmasuk.index')->with('success', 'Surat masuk berhasil dihapus.');
     }
+
     public function search(Request $request)
-        {
-            // Validasi request
-            $request->validate([
-                'keyword' => 'required|string', // Ubah validasi sesuai dengan kebutuhan Anda
-            ]);
+    {
+        // Validasi request
+        $request->validate([
+            'keyword' => 'required|string', // Ubah validasi sesuai dengan kebutuhan Anda
+        ]);
 
-            // Ambil kata kunci pencarian dari request
-            $keyword = $request->input('keyword');
+        // Ambil kata kunci pencarian dari request
+        $keyword = $request->input('keyword');
 
-            // Lakukan pencarian surat masuk berdasarkan nomor surat, pengirim, atau subjek
-            $hasilPencarian = DB::table('surat_masuk')->where('nomor_surat', 'like', "%$keyword%")
-                                        ->orWhere('pengirim', 'like', "%$keyword%")
-                                        ->orWhere('perihal', 'like', "%$keyword%")
-                                        ->get();
+        // Lakukan pencarian surat masuk berdasarkan nomor surat, pengirim, atau subjek
+        $hasilPencarian = SuratMasuk::where('nomor_surat', 'like', "%$keyword%")
+            ->orWhere('pengirim', 'like', "%$keyword%")
+            ->orWhere('perihal', 'like', "%$keyword%")
+            ->get();
 
-            // Simpan hasil pencarian dalam session
-            session()->flash('hasilPencarian', $hasilPencarian);
+        // Simpan hasil pencarian dalam session
+        session(['hasilPencarian' => $hasilPencarian]);
 
-            // Redirect kembali ke halaman indeks
-            return redirect()->route('suratmasuk.index');
-        }
-
-
+        // Redirect kembali ke halaman indeks
+        return redirect()->route('suratmasuk.index');
+    }
 }

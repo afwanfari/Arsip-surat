@@ -38,24 +38,32 @@
                             <td>{{ $surat->tanggal }}</td>
                             <td>
                                 @if (Str::endsWith($surat->file, '.pdf'))
-                                    <a href="{{ asset('gambar/' . $surat->file) }}" target="_blank" class="d-inline">Preview PDF</a>
+                                <a href="{{ asset('gambar/' . $surat->file) }}" target="_blank" class="d-inline">Preview
+                                    PDF</a>
                                 @else
-                                    <a href="{{ asset('gambar/' . $surat->file) }}" target="_blank" class="d-inline">Preview Gambar</a>
+                                <a href="{{ asset('gambar/' . $surat->file) }}" target="_blank" class="d-inline">Preview
+                                    Gambar</a>
                                 @endif
                             </td>
                             <td>
-                                <a class="btn btn-sm btn-primary" href="{{ route('disposisi.create', ['surat_id' => $surat->id]) }}" class="d-inline">Buat</a>
+                                <a class="btn btn-sm btn-primary"
+                                    href="{{ route('disposisi.create', ['surat_id' => $surat->id]) }}"
+                                    class="d-inline">Buat</a>
                             </td>
                             <td>
-                                <a href="{{ route('suratmasuk.edit', $surat->id) }}" class="btn btn-sm btn-warning" class="d-inline">Edit</a>
-                                <form action="{{ route('suratmasuk.destroy', $surat->id) }}" method="POST" class="d-inline">
+                                <a href="{{ route('suratmasuk.edit', $surat->id) }}" class="btn btn-sm btn-warning"
+                                    class="d-inline">Edit</a>
+                                <form action="{{ route('suratmasuk.destroy', $surat->id) }}" method="POST"
+                                    class="d-inline">
                                     @csrf
                                     @method('DELETE')
-                                    <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Apakah Anda yakin ingin menghapus surat ini?')">Hapus</button>
+                                    <button type="submit" class="btn btn-sm btn-danger"
+                                        onclick="return confirm('Apakah Anda yakin ingin menghapus surat ini?')">Hapus</button>
                                 </form>
                             </td>
                             <td>
-                                <a class="btn btn-sm btn-info" href="{{ route('pdf', $surat->id) }}" class="d-inline">Cetak</a>
+                                <a class="btn btn-sm btn-info" href="{{ route('pdf', $surat->id) }}"
+                                    class="d-inline">Cetak</a>
                             </td>
                         </tr>
                         @endforeach
@@ -67,4 +75,3 @@
 </div>
 <!-- /.container-fluid -->
 @endsection
-

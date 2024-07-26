@@ -18,5 +18,19 @@ class SuratMasuk extends Model
         'tanggal',
     ];
 
-    // Definisi lainnya seperti relasi, aksesormutator, dll.
+    // Relasi ke Disposisi
+    public function disposisi()
+    {
+        return $this->hasMany(Disposisi::class, 'id', 'id');
+    }
+    //Relasi ke orangdituju
+    public function orangDituju()
+    {
+        return $this->belongsTo(orangditujuModel::class, 'id');
+    }
+    //relasi ke jenis disposisi
+    public function jenisDisposisi()
+    {
+        return $this->belongsTo(jenisdisposisiModel::class, 'id');
+    }
 }

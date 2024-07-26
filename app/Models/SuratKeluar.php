@@ -26,4 +26,6 @@ class SuratKeluar extends Model
         'pembuat' => 'kaur umum',
         'pembuat' => 'kaur tata usaha',
     ];
+
+    
 }
