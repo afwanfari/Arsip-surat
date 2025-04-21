@@ -8,7 +8,7 @@ use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PDFController;
 use App\Http\Controllers\ExportController;
-    
+
 Route::get('generate-pdf/{surat_id}', [PDFController::class, 'generatePDF'])->name('pdf');
 Route::get('/exportmasuk', [ExportController::class, 'exportmasuk'])->name('exportmasuk');
 Route::get('/exportkeluar', [ExportController::class, 'exportkeluar'])->name('exportkeluar');
